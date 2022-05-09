@@ -37,13 +37,17 @@ matriz = [[5, 2, 5, 1], \
           [9, 1, 2, 7], \
           [3, 6, 2, 3]]
 
-poeUmNaDiagonalPrincipalNaLinha(1, matriz)
-print(matriz)
-#print (haZeroNaDiagonal(matriz))
-length = len(matriz)
-print(poeUmNaDiagonalPrincipalNaLinha(1, matriz))
-if not haZeroNaDiagonal(matriz):
-    for i in range(length):
-        poeUmNaDiagonalPrincipalNaLinha(i, matriz)
-
+def __main__(matriz):
+    poeUmNaDiagonalPrincipalNaLinha(1, matriz)
     print(matriz)
+    #print (haZeroNaDiagonal(matriz))
+    length = len(matriz)
+    print(poeUmNaDiagonalPrincipalNaLinha(1, matriz))
+    if not haZeroNaDiagonal(matriz):
+        for i in range(length):
+            poeUmNaDiagonalPrincipalNaLinha(i, matriz)
+
+        print(matriz)
+
+
+__main__(matriz)
