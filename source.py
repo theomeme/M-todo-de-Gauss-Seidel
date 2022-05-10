@@ -1,4 +1,6 @@
 def haZeroNaDiagonal(m):
+    #verificação de há zero na diagona principal
+    #retorna a quantidade de zeros na diagonal principal
     qtdDeZeros = 0
     posicao = 0
     while posicao < len(m):
@@ -8,14 +10,20 @@ def haZeroNaDiagonal(m):
 
 
 def poeUmNaDiagonalPrincipalNaLinha(lin, m):
+    #Adiciona o número 1 na diagonal principal
+    #Parametros = {number}Linha / {variavel}Matriz
+    #Retorna a a linha com o 1 na diagonal principal
     divisor = m[lin][lin]
     col = 0
     while col <= len(m):
         m[lin][col] /= divisor
         col += 1
+        print(m)
 
 def seNaoETudoZero(m):
-
+    #Verifica se há um zero na matriz , varrendo a matriz inteira por linha e coluna
+    #Parametro = {variavel} Matriz
+    # Retorna {boolen} True / False
     for col in range(len(m)):
         for lin in range(len(m)):
             if lin != col:
@@ -33,17 +41,10 @@ def ondeTemZero():
 
 
 
-matriz = [[5, 2, 5, 1], \
+matriz = [[5, 2, 0, 1], \
           [9, 1, 2, 7], \
           [3, 6, 2, 3]]
 
-poeUmNaDiagonalPrincipalNaLinha(1, matriz)
 print(matriz)
-#print (haZeroNaDiagonal(matriz))
-length = len(matriz)
-print(poeUmNaDiagonalPrincipalNaLinha(1, matriz))
-if not haZeroNaDiagonal(matriz):
-    for i in range(length):
-        poeUmNaDiagonalPrincipalNaLinha(i, matriz)
 
-    print(matriz)
+
