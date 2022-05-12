@@ -15,7 +15,7 @@ def poeUmNaDiagonalPrincipalNaLinha(lin, m):
     # Retorna a a linha com o 1 na diagonal principal
     divisor = m[lin][lin]
     col = 0
-    while col <= len(m):
+    for col in range(0, len(m) + 1):
         m[lin][col] /= divisor
         col += 1
 
@@ -26,12 +26,22 @@ def seNaoETudoZero(m, col):
     # Retorna {boolen} True / False
     linha_negativa = []
     print('entrou na seNaoETudoZero')
-    for lin in range(len(m) - 1):
+    print(len(m))
+    for lin in range(len(m)):
+        mult = m[lin][col]
         print('tamanho da linha', len(m) - 1)
         print(lin)
         if lin != col:
             if m[lin][col] != 0:
-                m[lin][col] = m[lin][col] - (m[col][col] * (-m[lin][col]))
+                m[lin][col] = m[lin][col] - (mult * (m[col][col]))
+
+def temZeroNaColuna(m, col):
+    for lin in range(len(m) - 1):
+        if m[lin][col] == 0:
+            return True
+            break
+    return False
+
 
 
 def ondeTemZero():
@@ -74,12 +84,15 @@ def __main__():
     print(matriz)
     poeUmNaDiagonalPrincipalNaLinha(0, matriz)
     print(matriz)
+    seNaoETudoZero(matriz, 0)
+    print(matriz)
     poeUmNaDiagonalPrincipalNaLinha(1, matriz)
+    print(matriz)
+    seNaoETudoZero(matriz, 1)
     print(matriz)
     poeUmNaDiagonalPrincipalNaLinha(2, matriz)
     print(matriz)
-    print(matriz[1][0] - (matriz[1][0] * (-matriz[0][0])))
-    seNaoETudoZero(matriz, 1)
+    seNaoETudoZero(matriz, 2)
     print(matriz)
 
 __main__()
