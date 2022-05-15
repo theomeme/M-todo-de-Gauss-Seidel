@@ -1,3 +1,15 @@
+#def coeficienteDosPares(m):
+    #************** precisa ser implementada ********************
+    # retorna a divisão dos coeficientes de qualquer par de linhas da matriz dada
+
+
+#def verificaSeHaDiferentes(coeficiente):
+    # ************** precisa ser implementada ********************
+    #verifica se há elementos diferentes entre si em uma lista
+
+#def trocaLinha()
+# usa a função ondeTemZero para trocar de posição uma linha com zero na diagonal principal
+
 def haZeroNaDiagonal(m):
     # verificação de há zero na diagona principal
     # retorna a quantidade de zeros na diagonal principal
@@ -35,16 +47,15 @@ def seNaoETudoZero(m, col):
             if m[lin][col] != 0:
                 m[lin][col] = m[lin][col] - (mult * (m[col][col]))
 
+
 def temZeroNaColuna(m, col):
     for lin in range(len(m) - 1):
         if m[lin][col] == 0:
             return True
-            break
     return False
 
 
-
-def ondeTemZero():
+def quantosZerosTem():
     while haZeroNaDiagonal(matriz):
         count = 0
         while count < len(matriz):
@@ -53,6 +64,11 @@ def ondeTemZero():
 
             count += 1
 
+def ondeTemZero():
+    #retorna em qual linha existe zero na diagonal principal
+    for lin in range(len(matriz) - 1):
+        if matriz[lin][lin] == 0:
+            return lin
 
 matriz = [[5, 2, 5, 1], \
           [9, 1, 2, 7], \
@@ -74,13 +90,7 @@ matriz = [[5, 2, 5, 1], \
 #         seNaoETudoZero(matriz, 0)
 #         print(matriz)
 
-# __main__(matriz)
-
 def __main__():
-    matriz = [[5, 2, 5, 1], \
-              [9, 1, 2, 7], \
-              [3, 6, 2, 3]]
-
     print(matriz)
     poeUmNaDiagonalPrincipalNaLinha(0, matriz)
     print(matriz)
@@ -94,5 +104,6 @@ def __main__():
     print(matriz)
     seNaoETudoZero(matriz, 2)
     print(matriz)
+
 
 __main__()
