@@ -1,14 +1,36 @@
 #def coeficienteDosPares(m):
-    #************** precisa ser implementada ********************
-    # retorna a divisão dos coeficientes de qualquer par de linhas da matriz dada
+#    for lin in range (len(m)):
 
+
+#def listaComParesPossiveis():
+#    range = [0]
+#    for i in range(len(matriz)):
+#        range.append(i + 1)
+#    print(range)
+
+def all_pairs(lst):
+    if len(lst) < 2:
+        yield []
+        return
+    if len(lst) % 2 == 1:
+        # Handle odd length list
+        for i in range(len(lst)):
+            for result in all_pairs(lst[:i] + lst[i+1:]):
+                yield result
+    else:
+        a = lst[0]
+        for i in range(1,len(lst)):
+            pair = (a,lst[i])
+            for rest in all_pairs(lst[1:i]+lst[i+1:]):
+                yield [pair] + rest
 
 #def verificaSeHaDiferentes(coeficiente):
     # ************** precisa ser implementada ********************
     #verifica se há elementos diferentes entre si em uma lista
 
-#def trocaLinha()
-# usa a função ondeTemZero para trocar de posição uma linha com zero na diagonal principal
+#def trocaLinha(m, lin):
+    # usa a função ondeTemZero para trocar de posição uma linha com zero na diagonal principal
+
 
 def haZeroNaDiagonal(m):
     # verificação de há zero na diagona principal
@@ -35,14 +57,8 @@ def poeUmNaDiagonalPrincipalNaLinha(lin, m):
 def seNaoETudoZero(m, col):
     # Verifica se há um zero na matriz , varrendo a matriz inteira por linha e coluna
     # Parametro = {variavel} Matriz
-    # Retorna {boolen} True / False
-    linha_negativa = []
-    print('entrou na seNaoETudoZero')
-    print(len(m))
     for lin in range(len(m)):
         mult = m[lin][col]
-        print('tamanho da linha', len(m) - 1)
-        print(lin)
         if lin != col:
             if m[lin][col] != 0:
                 m[lin][col] = m[lin][col] - (mult * (m[col][col]))
@@ -74,35 +90,16 @@ matriz = [[5, 2, 5, 1], \
           [9, 1, 2, 7], \
           [3, 6, 2, 3]]
 
-
-# def __main__(matriz):
-#     poeUmNaDiagonalPrincipalNaLinha(1, matriz)
-#     print(matriz)
-#     #print (haZeroNaDiagonal(matriz))
-#     length = len(matriz)
-#     print(poeUmNaDiagonalPrincipalNaLinha(1, matriz))
-#     if not haZeroNaDiagonal(matriz):
-#         for i in range(length):
-#             poeUmNaDiagonalPrincipalNaLinha(i, matriz)
-#         for col in range(length-1):
-#             seNaoETudoZero(matriz, 0)
-#             print(matriz)
-#         seNaoETudoZero(matriz, 0)
-#         print(matriz)
-
 def __main__():
     print(matriz)
-    poeUmNaDiagonalPrincipalNaLinha(0, matriz)
-    print(matriz)
-    seNaoETudoZero(matriz, 0)
-    print(matriz)
-    poeUmNaDiagonalPrincipalNaLinha(1, matriz)
-    print(matriz)
-    seNaoETudoZero(matriz, 1)
-    print(matriz)
-    poeUmNaDiagonalPrincipalNaLinha(2, matriz)
-    print(matriz)
-    seNaoETudoZero(matriz, 2)
+
+#    print(listaComParesPossiveis())
+
+    for lin in range(len(matriz)):
+        poeUmNaDiagonalPrincipalNaLinha(lin, matriz)
+
+    for col in range(len(matriz)):
+        seNaoETudoZero(matriz, col)
     print(matriz)
 
 
