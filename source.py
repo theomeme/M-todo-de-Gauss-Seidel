@@ -28,8 +28,24 @@ def all_pairs(lst):
     # ************** precisa ser implementada ********************
     #verifica se há elementos diferentes entre si em uma lista
 
-#def trocaLinha(m, lin):
+def trocaLinha(m, lin):
     # usa a função ondeTemZero para trocar de posição uma linha com zero na diagonal principal
+    if haZeroNaDiagonal:
+        for index_line in range(0, len(matrix)):
+            for try_line in range(0, len(matrix)):
+                if index_line == try_line:
+                    continue
+                else:
+                    matrix = matrix
+                    pivot_line = matrix[try_line]
+                    matrix.insert(try_line, matrix[index_line])
+                    matrix.pop(try_line + 1)
+                    matrix.insert(index_line, pivot_line)
+                    matrix.pop(index_line + 1)
+                    if verify_zero_matrix(matrix) == False:
+                        return matrix
+    else:
+        return True
 
 
 def haZeroNaDiagonal(m):
