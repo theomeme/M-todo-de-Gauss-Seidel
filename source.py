@@ -4,7 +4,7 @@
 # uma lista com os itens na permutação sendo gerada (perm) e
 # uma lista com as permutações geradas (perms)
 def permuta(linha, perm, perms):
-    if linha == []:
+    if not linha:
         perms.append(perm)
     else:
         for lin in range(len(linha)):
@@ -28,6 +28,7 @@ def combinacoesDeLinhas2a2 (m):
             ret.append([lin,col])
     return ret
 
+
 def divisao(a, b):
     if a == 0 and b == 0:
         return "indeterminado"
@@ -41,10 +42,6 @@ def divDumVetorPorOutro(x, y):
     ret = []
     for i in range(len(x) - 1): ret.append(divisao(x[i], y[i]))
     return ret
-
-#def verificaSeHaDiferentes(coeficiente):
-    # ************** precisa ser implementada ********************
-    #verifica se há elementos diferentes entre si em uma lista
 
 
 def haZeroNaDiagonal(m, permL, permC):
@@ -95,6 +92,7 @@ def quantosZerosTem():
 
             count += 1
 
+
 def comoSeLivrarDeZerosNaDiagonal (m):
     perms = permutacoes(list(range(len(m))))
 
@@ -105,11 +103,13 @@ def comoSeLivrarDeZerosNaDiagonal (m):
 
     return None
 
+
 def ondeTemZero():
     #retorna em qual linha existe zero na diagonal principal
     for lin in range(len(matriz) - 1):
         if matriz[lin][lin] == 0:
             return lin
+
 
 matriz = [[0, 0, 3, 1], \
           [0, 1, 0, 7], \
