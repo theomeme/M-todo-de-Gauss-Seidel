@@ -1,69 +1,68 @@
-#def coeficienteDosPares(m):
-#    for lin in range (len(m)):
-
-
-#def listaComParesPossiveis():
-#    range = [0]
-#    for i in range(len(matriz)):
-#        range.append(i + 1)
-#    print(range)
-
-def all_pairs(lst):
-    if len(lst) < 2:
-        yield []
-        return
-    if len(lst) % 2 == 1:
-        # Handle odd length list
-        for i in range(len(lst)):
-            for result in all_pairs(lst[:i] + lst[i+1:]):
-                yield result
+# função auxiliar  recursivo que, de fato, gera as permutacoes
+# NÃO USE DIRETAMENTE ESTA FUNÇÃO; USE A FUNÇÃO permutacoes
+# recebe uma lista com os valores a serem permutados (linha),
+# uma lista com os itens na permutação sendo gerada (perm) e
+# uma lista com as permutações geradas (perms)
+def permuta(linha, perm, perms):
+    if linha == []:
+        perms.append(perm)
     else:
-        a = lst[0]
-        for i in range(1,len(lst)):
-            pair = (a,lst[i])
-            for rest in all_pairs(lst[1:i]+lst[i+1:]):
-                yield [pair] + rest
+        for lin in range(len(linha)):
+            permuta(linha[0:lin] + linha[lin + 1:len(linha)], perm + [linha[lin]], perms)
+
+
+# função principal para gerar permutações;
+# USA A FUNÇÃO permuta, QUE NÃO DEVE SER USADA DIRETAMENTE;
+# recebe uma lista com os valores a serem permutados (linha)
+# retorna as permutações geradas
+def permutacoes(linha):
+    perms = []
+    permuta(linha, [], perms)
+    return perms
+
+
+def combinacoesDeLinhas2a2 (m):
+    ret = []
+    for lin in range(len(m)):
+        for col in range(lin+1,len(m)):
+            ret.append([lin,col])
+    return ret
+
+def divisao(a, b):
+    if a == 0 and b == 0:
+        return "indeterminado"
+    elif b == 0:
+        return "infinito"
+    else:
+        return a / b
+
+
+def divDumVetorPorOutro(x, y):
+    ret = []
+    for i in range(len(x) - 1): ret.append(divisao(x[i], y[i]))
+    return ret
 
 #def verificaSeHaDiferentes(coeficiente):
     # ************** precisa ser implementada ********************
     #verifica se há elementos diferentes entre si em uma lista
 
-def trocaLinha(m, lin):
-    # usa a função ondeTemZero para trocar de posição uma linha com zero na diagonal principal
-    if haZeroNaDiagonal:
-        for index_line in range(0, len(matrix)):
-            for try_line in range(0, len(matrix)):
-                if index_line == try_line:
-                    continue
-                else:
-                    matrix = matrix
-                    pivot_line = matrix[try_line]
-                    matrix.insert(try_line, matrix[index_line])
-                    matrix.pop(try_line + 1)
-                    matrix.insert(index_line, pivot_line)
-                    matrix.pop(index_line + 1)
-                    if verify_zero_matrix(matrix) == False:
-                        return matrix
-    else:
-        return True
 
-
-def haZeroNaDiagonal(m):
+def haZeroNaDiagonal(m, permL, permC):
     # verificação de há zero na diagona principal
     # retorna a quantidade de zeros na diagonal principal
     qtdDeZeros = 0
     posicao = 0
     while posicao < len(m):
-        if m[posicao][posicao] == 0: qtdDeZeros += 1
+        if m[permL[posicao]][permC[posicao]] == 0: qtdDeZeros += 1
         posicao += 1
     return qtdDeZeros > 0
 
 
-def poeUmNaDiagonalPrincipalNaLinha(lin, m):
+def poeUmNaDiagonalPrincipalNaLinha(lin, m, permL, permC):
     # Adiciona o número 1 na diagonal principal
     # Parametros = {number}Linha / {variavel}Matriz
     # Retorna a a linha com o 1 na diagonal principal
-    divisor = m[lin][lin]
+    divisor = m[permL[lin]][permC[lin]]
     col = 0
     for col in range(0, len(m) + 1):
         m[lin][col] /= divisor
@@ -96,27 +95,64 @@ def quantosZerosTem():
 
             count += 1
 
+def comoSeLivrarDeZerosNaDiagonal (m):
+    perms = permutacoes(list(range(len(m))))
+
+    for i in range(len(perms)):
+        for j in range(len(perms)):
+            if not haZeroNaDiagonal(m, perms[i], perms[j]):
+                return [perms[i], perms[j]]
+
+    return None
+
 def ondeTemZero():
     #retorna em qual linha existe zero na diagonal principal
     for lin in range(len(matriz) - 1):
         if matriz[lin][lin] == 0:
             return lin
 
-matriz = [[5, 2, 5, 1], \
-          [9, 1, 2, 7], \
-          [3, 6, 2, 3]]
+matriz = [[0, 0, 3, 1], \
+          [0, 1, 0, 7], \
+          [7, 0, 0, 3]]
+
+
+def carregaMatriz(nomeArq):
+    arq = open(nomeArq, "r")
+    qtdLins = int(arq.readline())
+
+    ret = []
+    for lin in range(qtdLins):
+        texto = arq.readline().split()
+
+        linha = []
+        for col in range(qtdLins + 1): linha.append(float(texto[col]))
+
+        ret.append(linha)
+
+    arq.close()
+    return ret
+
 
 def __main__():
     print(matriz)
 
-#    print(listaComParesPossiveis())
+    try:
+        print(comoSeLivrarDeZerosNaDiagonal(matriz))
+        vetorPerms = comoSeLivrarDeZerosNaDiagonal(matriz)
+        permL = vetorPerms[0]
+        permC = vetorPerms[1]
 
-    for lin in range(len(matriz)):
-        poeUmNaDiagonalPrincipalNaLinha(lin, matriz)
+        if not haZeroNaDiagonal(matriz, permL, permC):
+            for lin in range(len(matriz)):
+                poeUmNaDiagonalPrincipalNaLinha(lin, matriz,permL,permC)
 
-    for col in range(len(matriz)):
-        seNaoETudoZero(matriz, col)
-    print(matriz)
+            for col in range(len(matriz)):
+                seNaoETudoZero(matriz, col)
+        print(matriz)
+    except TypeError:
+        print("Não há solução possível para a matriz dada")
+
+
 
 
 __main__()
