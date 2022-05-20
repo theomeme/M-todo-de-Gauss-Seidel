@@ -1,9 +1,13 @@
+import sys
+
+
 # função auxiliar  recursivo que, de fato, gera as permutacoes
 # NÃO USE DIRETAMENTE ESTA FUNÇÃO; USE A FUNÇÃO permutacoes
 # recebe uma lista com os valores a serem permutados (linha),
 # uma lista com os itens na permutação sendo gerada (perm) e
 # uma lista com as permutações geradas (perms)
 def permuta(linha, perm, perms):
+    # FUNCIONANDO PERFEITAMENTE
     if not linha:
         perms.append(perm)
     else:
@@ -16,16 +20,24 @@ def permuta(linha, perm, perms):
 # recebe uma lista com os valores a serem permutados (linha)
 # retorna as permutações geradas
 def permutacoes(linha):
+    # FUNCIONANDO PERFEITAMENTE
     perms = []
     permuta(linha, [], perms)
     return perms
 
 
-def combinacoesDeLinhas2a2 (m):
+def listaOrdenadaGenerica(m):
+    lista_linhas = []
+    for pos in range(len(m)):
+        lista_linhas.append(pos)
+    return lista_linhas
+
+
+def combinacoesDeLinhas2a2(m):
     ret = []
     for lin in range(len(m)):
-        for col in range(lin+1,len(m)):
-            ret.append([lin,col])
+        for col in range(lin + 1, len(m)):
+            ret.append([lin, col])
     return ret
 
 
@@ -40,8 +52,29 @@ def divisao(a, b):
 
 def divDumVetorPorOutro(x, y):
     ret = []
-    for i in range(len(x) - 1): ret.append(divisao(x[i], y[i]))
+    for i in range(len(x) - 1):
+        ret.append(divisao(x[i], y[i]))
     return ret
+
+
+def coeficientesPossiveis(comb, m):
+    # gera um vetor com os coeficientes da divisao de quaisquer linhas
+    vet = []
+    for pos in range(len(comb)):
+        vet.append(divDumVetorPorOutro(m[comb[pos][0]], m[comb[pos][1]]))
+        print("vet:", vet)
+    if tudoIgual(vet):
+        return False
+    else:
+        return True
+
+
+def tudoIgual(vet):
+    for pos in range(len(vet)):
+        vetComp = vet[pos]
+        if all(i == vetComp[0] for i in vetComp):
+            return True
+        return False
 
 
 def haZeroNaDiagonal(m, permL, permC):
@@ -50,8 +83,9 @@ def haZeroNaDiagonal(m, permL, permC):
     qtdDeZeros = 0
     posicao = 0
     while posicao < len(m):
-        if m[permL[posicao]][permC[posicao]] == 0: qtdDeZeros += 1
-        posicao += 1
+        if m[permL[posicao]][permC[posicao]] == 0:
+            qtdDeZeros += 1
+            posicao += 1
     return qtdDeZeros > 0
 
 
@@ -66,7 +100,7 @@ def poeUmNaDiagonalPrincipalNaLinha(lin, m, permL, permC):
         col += 1
 
 
-def seNaoETudoZero(m, col):
+def seNaoETudoZero(m, col, permL, permC):
     # Verifica se há um zero na matriz , varrendo a matriz inteira por linha e coluna
     # Parametro = {variavel} Matriz
     for lin in range(len(m)):
@@ -77,43 +111,43 @@ def seNaoETudoZero(m, col):
 
 
 def temZeroNaColuna(m, col):
+    # verifica se todos os elementos de uma coluna sao zero exceto a diagonal principal
+    # Parametros: (matriz, coluna)
     for lin in range(len(m) - 1):
         if m[lin][col] == 0:
             return True
     return False
 
 
-def quantosZerosTem():
-    while haZeroNaDiagonal(matriz):
+def quantosZerosTem(m, permL, permC):
+    # FUNCIONANDO PERFEITAMENTE
+    # retorna a quantidade de zeros na diagonal principal
+    while haZeroNaDiagonal(m, permL, permC):
         count = 0
-        while count < len(matriz):
-            if matriz[count][count] == 0:
+        while count < len(m):
+            if m[count][count] == 0:
                 return count
 
             count += 1
 
 
-def comoSeLivrarDeZerosNaDiagonal (m):
-    perms = permutacoes(list(range(len(m))))
-
+def comoSeLivrarDeZerosNaDiagonal(matriz):
+    # FUNCIONANDO PERFEITAMENTE
+    # Gera ordem virtual de resolução da matriz
+    perms = permutacoes(list(range(len(matriz))))
     for i in range(len(perms)):
         for j in range(len(perms)):
-            if not haZeroNaDiagonal(m, perms[i], perms[j]):
+            if not haZeroNaDiagonal(matriz, perms[i], perms[j]):
                 return [perms[i], perms[j]]
 
     return None
 
 
-def ondeTemZero():
-    #retorna em qual linha existe zero na diagonal principal
-    for lin in range(len(matriz) - 1):
-        if matriz[lin][lin] == 0:
+def ondeTemZero(m):
+    # retorna em qual linha existe zero na diagonal principal
+    for lin in range(len(m) - 1):
+        if m[lin][lin] == 0:
             return lin
-
-
-matriz = [[0, 0, 3, 1], \
-          [0, 1, 0, 7], \
-          [7, 0, 0, 3]]
 
 
 def carregaMatriz(nomeArq):
@@ -125,7 +159,8 @@ def carregaMatriz(nomeArq):
         texto = arq.readline().split()
 
         linha = []
-        for col in range(qtdLins + 1): linha.append(float(texto[col]))
+        for col in range(qtdLins + 1):
+            linha.append(float(texto[col]))
 
         ret.append(linha)
 
@@ -134,25 +169,70 @@ def carregaMatriz(nomeArq):
 
 
 def __main__():
-    print(matriz)
 
-    try:
-        print(comoSeLivrarDeZerosNaDiagonal(matriz))
-        vetorPerms = comoSeLivrarDeZerosNaDiagonal(matriz)
-        permL = vetorPerms[0]
-        permC = vetorPerms[1]
 
-        if not haZeroNaDiagonal(matriz, permL, permC):
-            for lin in range(len(matriz)):
-                poeUmNaDiagonalPrincipalNaLinha(lin, matriz,permL,permC)
+        # matriz = str(input("Digite o nome do arquivo da matriz a ser lida: "))
+        # carregaMatriz(matriz)
+        matriz = [[2, 2, 2, 28], \
+                  [4, 4, 4, 24], \
+                  [4, 4, 4, 16]]
+        perm = listaOrdenadaGenerica(matriz)
+        permL = perm
+        permC = perm
 
-            for col in range(len(matriz)):
-                seNaoETudoZero(matriz, col)
         print(matriz)
-    except TypeError:
-        print("Não há solução possível para a matriz dada")
+        comb = combinacoesDeLinhas2a2(matriz)
+        print("comb:", comb)
+        res = []
+        for pos in range(len(matriz)):
+            res.append(divDumVetorPorOutro(matriz[comb[pos][0]], matriz[comb[pos][1]]))
 
+        print("resultado das divisoes:", res)
+        print("tudo igual: ", tudoIgual(res))
+
+        if tudoIgual(res):
+            print("A divisão dos coeficientes de duas ou mais linhas é idêntica! A matriz não é solucionável!")
+            sys.exit()
+
+        # if haZeroNaDiagonal(matriz, permL, permC):
+        #     vetorPerms = comoSeLivrarDeZerosNaDiagonal(matriz)
+        #     permL = vetorPerms[0]
+        #     permC = vetorPerms[1]
+
+        print(permL)
+        print(permC)
+
+
+    # for pos in range(len(matriz)):
+    #     poeUmNaDiagonalPrincipalNaLinha(pos, matriz, permL, permC)
+    #     seNaoETudoZero(matriz, pos, permL, permC)
+    # try:
+    #     comb = combinacoesDeLinhas2a2(matriz)
+    #     if not coeficientesPossiveis(comb):
+    #         print("A divisão dos coeficientes de duas ou mais linhas é idêntica! A matriz não é solucionável!")
+    #         sys.exit()
+    #     if comoSeLivrarDeZerosNaDiagonal(matriz) is not None:
+    #         print(comoSeLivrarDeZerosNaDiagonal(matriz))
+    #         vetorPerms = comoSeLivrarDeZerosNaDiagonal(matriz)
+    #         permL = vetorPerms[0]
+    #         permC = vetorPerms[1]
+    #         print("permL", permL)
+    #         print("permC", permC)
+    #     else:
+    #         print("Não há uma maneira de organizar essa matriz de forma que "
+    #               "se tire todos os zeros da diagonal principal!\n A matriz não é solucionável!")
+    #         sys.exit()
+    #
+    #     if not haZeroNaDiagonal(matriz, permL, permC):
+    #         for lin in range(len(matriz)):
+    #             poeUmNaDiagonalPrincipalNaLinha(lin, matriz, permL, permC)
+    #
+    #         for col in range(len(matriz)):
+    #             seNaoETudoZero(matriz, col)
+    #     print(matriz)
 
 
 
 __main__()
+
+
