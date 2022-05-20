@@ -80,13 +80,11 @@ def tudoIgual(vet):
 def haZeroNaDiagonal(m, permL, permC):
     # verificação de há zero na diagona principal
     # retorna a quantidade de zeros na diagonal principal
-    qtdDeZeros = 0
-    posicao = 0
-    while posicao < len(m):
-        if m[permL[posicao]][permC[posicao]] == 0:
-            qtdDeZeros += 1
-            posicao += 1
-    return qtdDeZeros > 0
+    for pos in range(len(m)):
+        if m[permL[pos]][permC[pos]] == 0:
+            return True
+    return False
+
 
 
 def poeUmNaDiagonalPrincipalNaLinha(lin, m, permL, permC):
@@ -173,9 +171,9 @@ def __main__():
 
         # matriz = str(input("Digite o nome do arquivo da matriz a ser lida: "))
         # carregaMatriz(matriz)
-        matriz = [[2, 2, 2, 28], \
-                  [4, 4, 4, 24], \
-                  [4, 4, 4, 16]]
+        matriz = [[0, 2, 2, 28], \
+                  [8, 0, 4, 24], \
+                  [4, 7, 0, 16]]
         perm = listaOrdenadaGenerica(matriz)
         permL = perm
         permC = perm
@@ -194,10 +192,12 @@ def __main__():
             print("A divisão dos coeficientes de duas ou mais linhas é idêntica! A matriz não é solucionável!")
             sys.exit()
 
-        # if haZeroNaDiagonal(matriz, permL, permC):
-        #     vetorPerms = comoSeLivrarDeZerosNaDiagonal(matriz)
-        #     permL = vetorPerms[0]
-        #     permC = vetorPerms[1]
+        print(comoSeLivrarDeZerosNaDiagonal(matriz))
+        if haZeroNaDiagonal(matriz, permL, permC):
+            print("Entrou")
+            vetorPerms = comoSeLivrarDeZerosNaDiagonal(matriz)
+            permL = vetorPerms[0]
+            permC = vetorPerms[1]
 
         print(permL)
         print(permC)
