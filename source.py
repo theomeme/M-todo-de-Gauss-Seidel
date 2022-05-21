@@ -86,7 +86,6 @@ def haZeroNaDiagonal(m, permL, permC):
     return False
 
 
-
 def poeUmNaDiagonalPrincipalNaLinha(lin, m, permL, permC):
     # Adiciona o número 1 na diagonal principal
     # Parametros = {number}Linha / {variavel}Matriz
@@ -99,13 +98,14 @@ def poeUmNaDiagonalPrincipalNaLinha(lin, m, permL, permC):
 
 
 def seNaoETudoZero(m, col, permL, permC):
-    # Verifica se há um zero na matriz , varrendo a matriz inteira por linha e coluna
+    # TODO: Implementar lógica corretamente
+    # Muda todos os numeros para zero em uma determinada coluna
     # Parametro = {variavel} Matriz
     for lin in range(len(m)):
-        mult = m[lin][col]
-        if lin != col:
-            if m[lin][col] != 0:
-                m[lin][col] = m[lin][col] - (mult * (m[col][col]))
+        mult = m[permL[lin]][permC[col]]
+        if permL[lin] != permC[col]:
+            if m[permL[lin]][permC[col]] != 0:
+                m[permL[lin]][permC[col]] = m[permL[lin]][permC[col]] - (mult * (m[permC[col]][permC[col]]))
 
 
 def temZeroNaColuna(m, col):
@@ -168,7 +168,7 @@ def carregaMatriz(nomeArq):
 
 def __main__():
 
-
+    try:
         # matriz = str(input("Digite o nome do arquivo da matriz a ser lida: "))
         # carregaMatriz(matriz)
         matriz = [[0, 2, 2, 28], \
@@ -185,23 +185,25 @@ def __main__():
         for pos in range(len(matriz)):
             res.append(divDumVetorPorOutro(matriz[comb[pos][0]], matriz[comb[pos][1]]))
 
-        print("resultado das divisoes:", res)
-        print("tudo igual: ", tudoIgual(res))
-
         if tudoIgual(res):
             print("A divisão dos coeficientes de duas ou mais linhas é idêntica! A matriz não é solucionável!")
             sys.exit()
 
-        print(comoSeLivrarDeZerosNaDiagonal(matriz))
         if haZeroNaDiagonal(matriz, permL, permC):
-            print("Entrou")
             vetorPerms = comoSeLivrarDeZerosNaDiagonal(matriz)
             permL = vetorPerms[0]
             permC = vetorPerms[1]
 
-        print(permL)
-        print(permC)
+        for pos in range(len(matriz)):
+            poeUmNaDiagonalPrincipalNaLinha(pos, matriz, permL, permC)
+            print("Coloca 1 na diagonal", matriz)
+            seNaoETudoZero(matriz, pos, permL, permC)
+            print("Coloca 0 na coluna", matriz)
+        print(comoSeLivrarDeZerosNaDiagonal(matriz))
+        print(matriz)
 
+    except TypeError:
+        print("Não é possível resolver essa matriz!")
 
     # for pos in range(len(matriz)):
     #     poeUmNaDiagonalPrincipalNaLinha(pos, matriz, permL, permC)
@@ -230,8 +232,6 @@ def __main__():
     #         for col in range(len(matriz)):
     #             seNaoETudoZero(matriz, col)
     #     print(matriz)
-
-
 
 __main__()
 
