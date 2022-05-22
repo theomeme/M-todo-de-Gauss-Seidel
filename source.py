@@ -91,10 +91,9 @@ def poeUmNaDiagonalPrincipalNaLinha(lin, m, permL, permC):
     # Parametros = {number}Linha / {variavel}Matriz
     # Retorna a a linha com o 1 na diagonal principal
     divisor = m[permL[lin]][permC[lin]]
-    col = 0
     for col in range(len(m)):
         m[permL[lin]][permL[col]] /= divisor
-        col += 1
+    m[permL[lin]][len(m)] /= divisor
 
 
 def seNaoETudoZero(m, col, permL, permC):
@@ -171,10 +170,11 @@ def __main__():
     try:
         # matriz = str(input("Digite o nome do arquivo da matriz a ser lida: "))
         # carregaMatriz(matriz)
-        matriz = [[0, 2, 2, 28], \
-                  [8, 0, 4, 24], \
-                  [4, 7, 0, 16]]
+        matriz = [[0, 3, 2, 28], \
+                  [4, 0, 2, 24], \
+                  [2, 3, 0, 16]]
         perm = listaOrdenadaGenerica(matriz)
+        print("Length:", len(matriz))
         permL = perm
         permC = perm
 
@@ -201,6 +201,7 @@ def __main__():
             print("Coloca 0 na coluna", matriz)
         print(comoSeLivrarDeZerosNaDiagonal(matriz))
         print(matriz)
+
 
     except TypeError:
         print("Não é possível resolver essa matriz!")
