@@ -62,7 +62,6 @@ def coeficientesPossiveis(comb, m):
     vet = []
     for pos in range(len(comb)):
         vet.append(divDumVetorPorOutro(m[comb[pos][0]], m[comb[pos][1]]))
-        print("vet:", vet)
     if tudoIgual(vet):
         return False
     else:
@@ -174,13 +173,11 @@ def __main__():
                   [4, 0, 2, 24], \
                   [2, 3, 0, 16]]
         perm = listaOrdenadaGenerica(matriz)
-        print("Length:", len(matriz))
         permL = perm
         permC = perm
 
         print(matriz)
         comb = combinacoesDeLinhas2a2(matriz)
-        print("comb:", comb)
         res = []
         for pos in range(len(matriz)):
             res.append(divDumVetorPorOutro(matriz[comb[pos][0]], matriz[comb[pos][1]]))
@@ -196,43 +193,12 @@ def __main__():
 
         for pos in range(len(matriz)):
             poeUmNaDiagonalPrincipalNaLinha(pos, matriz, permL, permC)
-            print("Coloca 1 na diagonal", matriz)
             seNaoETudoZero(matriz, pos, permL, permC)
-            print("Coloca 0 na coluna", matriz)
-        print(comoSeLivrarDeZerosNaDiagonal(matriz))
         print(matriz)
-
 
     except TypeError:
         print("Não é possível resolver essa matriz!")
 
-    # for pos in range(len(matriz)):
-    #     poeUmNaDiagonalPrincipalNaLinha(pos, matriz, permL, permC)
-    #     seNaoETudoZero(matriz, pos, permL, permC)
-    # try:
-    #     comb = combinacoesDeLinhas2a2(matriz)
-    #     if not coeficientesPossiveis(comb):
-    #         print("A divisão dos coeficientes de duas ou mais linhas é idêntica! A matriz não é solucionável!")
-    #         sys.exit()
-    #     if comoSeLivrarDeZerosNaDiagonal(matriz) is not None:
-    #         print(comoSeLivrarDeZerosNaDiagonal(matriz))
-    #         vetorPerms = comoSeLivrarDeZerosNaDiagonal(matriz)
-    #         permL = vetorPerms[0]
-    #         permC = vetorPerms[1]
-    #         print("permL", permL)
-    #         print("permC", permC)
-    #     else:
-    #         print("Não há uma maneira de organizar essa matriz de forma que "
-    #               "se tire todos os zeros da diagonal principal!\n A matriz não é solucionável!")
-    #         sys.exit()
-    #
-    #     if not haZeroNaDiagonal(matriz, permL, permC):
-    #         for lin in range(len(matriz)):
-    #             poeUmNaDiagonalPrincipalNaLinha(lin, matriz, permL, permC)
-    #
-    #         for col in range(len(matriz)):
-    #             seNaoETudoZero(matriz, col)
-    #     print(matriz)
 
 __main__()
 
