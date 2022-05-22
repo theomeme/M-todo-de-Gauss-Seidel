@@ -92,8 +92,8 @@ def poeUmNaDiagonalPrincipalNaLinha(lin, m, permL, permC):
     # Retorna a a linha com o 1 na diagonal principal
     divisor = m[permL[lin]][permC[lin]]
     col = 0
-    for col in range(0, len(m) + 1):
-        m[lin][col] /= divisor
+    for col in range(len(m)):
+        m[permL[lin]][permL[col]] /= divisor
         col += 1
 
 
@@ -102,10 +102,10 @@ def seNaoETudoZero(m, col, permL, permC):
     # Muda todos os numeros para zero em uma determinada coluna
     # Parametro = {variavel} Matriz
     for lin in range(len(m)):
-        mult = m[permL[lin]][permC[col]]
-        if permL[lin] != permC[col]:
+        mult = m[permL[col]][permC[col]]
+        if lin != col:
             if m[permL[lin]][permC[col]] != 0:
-                m[permL[lin]][permC[col]] = m[permL[lin]][permC[col]] - (mult * (m[permC[col]][permC[col]]))
+                m[permL[lin]][permC[col]] = m[permL[lin]][permC[col]] - (mult * (m[permL[lin]][permC[col]]))
 
 
 def temZeroNaColuna(m, col):
