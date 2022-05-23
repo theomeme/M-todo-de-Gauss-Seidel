@@ -91,19 +91,27 @@ def poeUmNaDiagonalPrincipalNaLinha(lin, m, permL, permC):
     # Retorna a a linha com o 1 na diagonal principal
     divisor = m[permL[lin]][permC[lin]]
     for col in range(len(m)):
-        m[permL[lin]][permL[col]] /= divisor
-    m[permL[lin]][len(m)] /= divisor
+        m[permL[lin]][permL[col]] = divisao(m[permL[lin]][permL[col]], divisor)
+    m[permL[lin]][len(m)] = divisao(m[permL[lin]][len(m)], divisor)
 
 
-def seNaoETudoZero(m, col, permL, permC):
-    # TODO: Implementar lógica corretamente
+def poeZeroNaColuna(m, col, permL, permC):
     # Muda todos os numeros para zero em uma determinada coluna
     # Parametro = {variavel} Matriz
-    for lin in range(len(m)):
-        mult = m[permL[col]][permC[col]]
+
+    vetorMult = []
+
+    for pos in range(len(m) + 1):
+        vetorMult.append(m[permL[col]][pos])
+
+    vetorMult.append(m[permL[col]][len(m)])
+
+    for lin in range(0, len(m)):
+        mult = m[permL[lin]][permC[col]]
         if lin != col:
-            if m[permL[lin]][permC[col]] != 0:
-                m[permL[lin]][permC[col]] = m[permL[lin]][permC[col]] - (mult * (m[permL[lin]][permC[col]]))
+            for rec in range(len(m) + 1):
+                m[permL[lin]][rec] = m[permL[lin]][rec] - (mult * vetorMult[rec])
+
 
 
 def temZeroNaColuna(m, col):
@@ -139,6 +147,13 @@ def comoSeLivrarDeZerosNaDiagonal(matriz):
     return None
 
 
+def haAlgoAlemDeZeroNaColuna(matriz, col, permL, permC):
+    for i in range(len(matriz)):
+        if matriz[permL[i]][permC[col]] != 0:
+            return True
+    return False
+
+
 def ondeTemZero(m):
     # retorna em qual linha existe zero na diagonal principal
     for lin in range(len(m) - 1):
@@ -169,8 +184,8 @@ def __main__():
     try:
         # matriz = str(input("Digite o nome do arquivo da matriz a ser lida: "))
         # carregaMatriz(matriz)
-        matriz = [[0, 3, 2, 28], \
-                  [4, 0, 2, 24], \
+        matriz = [[0, 3, 2, 28],
+                  [4, 0, 2, 24],
                   [2, 3, 0, 16]]
         perm = listaOrdenadaGenerica(matriz)
         permL = perm
@@ -186,6 +201,7 @@ def __main__():
             print("A divisão dos coeficientes de duas ou mais linhas é idêntica! A matriz não é solucionável!")
             sys.exit()
 
+
         if haZeroNaDiagonal(matriz, permL, permC):
             vetorPerms = comoSeLivrarDeZerosNaDiagonal(matriz)
             permL = vetorPerms[0]
@@ -193,7 +209,11 @@ def __main__():
 
         for pos in range(len(matriz)):
             poeUmNaDiagonalPrincipalNaLinha(pos, matriz, permL, permC)
-            seNaoETudoZero(matriz, pos, permL, permC)
+
+            if haAlgoAlemDeZeroNaColuna(matriz, pos, permL, permC):
+                poeZeroNaColuna(matriz, pos, permL, permC)
+
+
         print(matriz)
 
     except TypeError:
